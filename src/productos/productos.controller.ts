@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ProductosService } from './productos.service';
-import { CreateProductoDto } from '../dto/create-cat.dto';
+import { CreateProductoDto } from '../dto/create-producto.dto';
 import { Producto } from '../interfaces/producto.interface';
+import { UpdateProductoDto } from 'src/dto/update-producto.dto';
 
 @Controller('prods')
 export class ProductosController {
@@ -9,30 +10,30 @@ export class ProductosController {
 
   @Post()
   async create(@Body() createProductoDto: CreateProductoDto) {
-    this.productosService.create(createProductoDto);
+    await this.productosService.create(createProductoDto);
   }
 
   @Get(":id")
   async findById(@Param("id") id: string) {
-    return this.productosService.findById(Number(id));
+    return await this.productosService.findById(Number(id));
   }
 
   @Get()
   async findAll(): Promise<Producto[]> {
-    return this.productosService.findAll();
+    return await this.productosService.findAll();
   }
 
   @Put(":id")
-  async updateById(@Param("id") id: string, @Body() createProductoDto: CreateProductoDto) {
-    return this.productosService.updateById(Number(id), createProductoDto);
+  async updateById(@Param("id") id: string, @Body() updateProductoDto: UpdateProductoDto) {
+    return await this.productosService.updateById(Number(id), updateProductoDto);
   }
 
   @Delete(":id")
   async deleteById(@Param("id") id: string) {
     if(id == "all") {
-        return this.productosService.deleteAll();
+        return await this.productosService.deleteAll();
     } else {
-        return this.productosService.deleteById(Number(id));
+        return await this.productosService.deleteById(Number(id));
     }
   }
 
